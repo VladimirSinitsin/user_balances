@@ -1,4 +1,4 @@
-DROP TABLE "Orders";
-DROP TABLE "History";
-DROP TABLE "Services";
-DROP TABLE "Accounts";
+DROP TABLE "orders";
+DROP TABLE "history";
+DROP TABLE "services";
+DROP TABLE "accounts";

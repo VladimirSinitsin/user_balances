@@ -1,16 +1,16 @@
-CREATE TABLE "Accounts" (
+CREATE TABLE "accounts" (
                             "id" bigserial PRIMARY KEY,
-                            "balance" bigint NOT NULL DEFAULT 0,
+                            "balance" bigint NOT NULL,
                             "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "Services" (
+CREATE TABLE "services" (
                             "id" bigserial PRIMARY KEY,
                             "name" varchar UNIQUE NOT NULL,
                             "price" bigint NOT NULL
 );
 
-CREATE TABLE "Orders" (
+CREATE TABLE "orders" (
                           "id" bigserial PRIMARY KEY,
                           "id_account" bigserial NOT NULL,
                           "id_service" bigserial NOT NULL,
@@ -19,7 +19,7 @@ CREATE TABLE "Orders" (
                           "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE TABLE "History" (
+CREATE TABLE "history" (
                            "id" bigserial PRIMARY KEY,
                            "id_account" bigserial NOT NULL,
                            "amount" bigint NOT NULL,
@@ -27,24 +27,24 @@ CREATE TABLE "History" (
                            "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
-CREATE INDEX ON "Accounts" ("id");
+CREATE INDEX ON "accounts" ("id");
 
-CREATE INDEX ON "Services" ("id");
+CREATE INDEX ON "services" ("id");
 
-CREATE INDEX ON "Orders" ("id");
+CREATE INDEX ON "orders" ("id");
 
-CREATE INDEX ON "Orders" ("id_account");
+CREATE INDEX ON "orders" ("id_account");
 
-CREATE INDEX ON "History" ("id_account");
+CREATE INDEX ON "history" ("id_account");
 
-ALTER TABLE "Orders" ADD FOREIGN KEY ("id_account") REFERENCES "Accounts" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("id_account") REFERENCES "accounts" ("id");
 
-ALTER TABLE "Orders" ADD FOREIGN KEY ("id_service") REFERENCES "Services" ("id");
+ALTER TABLE "orders" ADD FOREIGN KEY ("id_service") REFERENCES "services" ("id");
 
-ALTER TABLE "History" ADD FOREIGN KEY ("id_account") REFERENCES "Accounts" ("id");
+ALTER TABLE "history" ADD FOREIGN KEY ("id_account") REFERENCES "accounts" ("id");
 
-INSERT INTO "Services" ("name", "price") VALUES ('Выделить цветом', 30);
+INSERT INTO "services" ("name", "price") VALUES ('Выделить цветом', 30);
 
-INSERT INTO "Services" ("name", "price") VALUES ('XL-объявление', 30);
+INSERT INTO "services" ("name", "price") VALUES ('XL-объявление', 30);
 
-INSERT INTO "Services" ("name", "price") VALUES ('Увеличить количество просмотров', 220);
+INSERT INTO "services" ("name", "price") VALUES ('Увеличить количество просмотров', 220);
