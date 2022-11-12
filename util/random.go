@@ -46,3 +46,8 @@ func RandomStatus() string {
 	n := len(statuses)
 	return statuses[rand.Intn(n)]
 }
+
+// RandomComment generate a random comment
+func RandomComment() string {
+	return RandomString(20)
+}
