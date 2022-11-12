@@ -15,7 +15,7 @@ INSERT INTO services (
     price
 ) VALUES (
     $1, $2
-) RETURNING id, name, price
+) RETURNING id, name, price, created_at
 `
 
 type CreateServiceParams struct {
@@ -26,7 +26,12 @@ type CreateServiceParams struct {
 func (q *Queries) CreateService(ctx context.Context, arg CreateServiceParams) (Service, error) {
 	row := q.db.QueryRowContext(ctx, createService, arg.Name, arg.Price)
 	var i Service
-	err := row.Scan(&i.ID, &i.Name, &i.Price)
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Price,
+		&i.CreatedAt,
+	)
 	return i, err
 }
 
@@ -40,7 +45,7 @@ func (q *Queries) DeleteService(ctx context.Context, id int64) error {
 }
 
 const getServiceById = `-- name: GetServiceById :one
-SELECT id, name, price FROM services
+SELECT id, name, price, created_at FROM services
 WHERE id = $1
 LIMIT 1
 `
@@ -48,12 +53,17 @@ LIMIT 1
 func (q *Queries) GetServiceById(ctx context.Context, id int64) (Service, error) {
 	row := q.db.QueryRowContext(ctx, getServiceById, id)
 	var i Service
-	err := row.Scan(&i.ID, &i.Name, &i.Price)
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Price,
+		&i.CreatedAt,
+	)
 	return i, err
 }
 
 const getServiceByName = `-- name: GetServiceByName :one
-SELECT id, name, price FROM services
+SELECT id, name, price, created_at FROM services
 WHERE name = $1
 LIMIT 1
 `
@@ -61,12 +71,17 @@ LIMIT 1
 func (q *Queries) GetServiceByName(ctx context.Context, name string) (Service, error) {
 	row := q.db.QueryRowContext(ctx, getServiceByName, name)
 	var i Service
-	err := row.Scan(&i.ID, &i.Name, &i.Price)
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.Price,
+		&i.CreatedAt,
+	)
 	return i, err
 }
 
 const listServices = `-- name: ListServices :many
-SELECT id, name, price FROM services
+SELECT id, name, price, created_at FROM services
 ORDER BY name
 `
 
@@ -79,7 +94,12 @@ func (q *Queries) ListServices(ctx context.Context) ([]Service, error) {
 	var items []Service
 	for rows.Next() {
 		var i Service
-		if err := rows.Scan(&i.ID, &i.Name, &i.Price); err != nil {
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.Price,
+			&i.CreatedAt,
+		); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

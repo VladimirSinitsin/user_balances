@@ -32,7 +32,8 @@ type Order struct {
 }
 
 type Service struct {
-	ID    int64  `json:"id"`
-	Name  string `json:"name"`
-	Price int64  `json:"price"`
+	ID        int64     `json:"id"`
+	Name      string    `json:"name"`
+	Price     int64     `json:"price"`
+	CreatedAt time.Time `json:"created_at"`
 }

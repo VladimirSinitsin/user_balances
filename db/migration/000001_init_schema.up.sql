@@ -7,7 +7,8 @@ CREATE TABLE "accounts" (
 CREATE TABLE "services" (
                             "id" bigserial PRIMARY KEY,
                             "name" varchar UNIQUE NOT NULL,
-                            "price" bigint NOT NULL
+                            "price" bigint NOT NULL,
+                            "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 
 CREATE TABLE "orders" (
