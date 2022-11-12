@@ -48,8 +48,8 @@ type TransferTxParams struct {
 type TransferTxResults struct {
 	HistoryAccountFrom History `json:"history_account_from"`
 	HistoryAccountTo   History `json:"history_account_to"`
-	FromAccountID      Account `json:"from_account_id"`
-	ToAccountID        Account `json:"to_account_id"`
+	FromAccount        Account `json:"from_account"`
+	ToAccount          Account `json:"to_account"`
 	Amount             int64   `json:"amount"`
 	OperationStatus    string  `json:"operation_status"`
 	Date               string  `json:"date"`
