@@ -12,14 +12,14 @@ SELECT * FROM history
 WHERE id = $1
 LIMIT 1;
 
--- name: GetHistoryByAccountIdDataSort :many
+-- name: ListHistoryByAccountIdDataSort :many
 SELECT * FROM history
 WHERE id_account = $1
 ORDER BY created_at
 LIMIT $2
 OFFSET $3;
 
--- name: GetHistoryByAccountIdAmountSort :many
+-- name: ListHistoryByAccountIdAmountSort :many
 SELECT * FROM history
 WHERE id_account = $1
 ORDER BY amount
