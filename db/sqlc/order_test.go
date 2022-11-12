@@ -13,8 +13,9 @@ import (
 func createRandomOrder(t *testing.T) Order {
 	account := createRandomAccount(t)
 	service, err := testQueries.GetServiceById(context.Background(), 1)
-	require.NoError(t, err)
-	require.NotEmpty(t, service)
+	if err != nil {
+		service = createRandomService(t)
+	}
 
 	arg := CreateOrderParams{
 		IDAccount:    account.ID,
