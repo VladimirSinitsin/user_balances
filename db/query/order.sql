@@ -17,7 +17,7 @@ LIMIT 1;
 SELECT * FROM orders
 WHERE id_service = $1;
 
--- name: UpdateOrder :exec
+-- name: UpdateOrder :one
 UPDATE orders
 SET status = $2
 WHERE id = $1

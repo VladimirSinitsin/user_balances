@@ -110,7 +110,7 @@ func (q *Queries) ListOrdersByServiceId(ctx context.Context, idService int64) ([
 	return items, nil
 }
 
-const updateOrder = `-- name: UpdateOrder :exec
+const updateOrder = `-- name: UpdateOrder :one
 UPDATE orders
 SET status = $2
 WHERE id = $1
@@ -122,7 +122,16 @@ type UpdateOrderParams struct {
 	Status string `json:"status"`
 }
 
-func (q *Queries) UpdateOrder(ctx context.Context, arg UpdateOrderParams) error {
-	_, err := q.db.ExecContext(ctx, updateOrder, arg.ID, arg.Status)
-	return err
+func (q *Queries) UpdateOrder(ctx context.Context, arg UpdateOrderParams) (Order, error) {
+	row := q.db.QueryRowContext(ctx, updateOrder, arg.ID, arg.Status)
+	var i Order
+	err := row.Scan(
+		&i.ID,
+		&i.IDAccount,
+		&i.IDService,
+		&i.PriceService,
+		&i.Status,
+		&i.CreatedAt,
+	)
+	return i, err
 }
