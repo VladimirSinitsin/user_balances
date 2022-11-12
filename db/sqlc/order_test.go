@@ -40,11 +40,11 @@ func createRandomOrder(t *testing.T) Order {
 	return order
 }
 
-func TestCreateOrder(t *testing.T) {
+func TestQueries_CreateOrder(t *testing.T) {
 	createRandomOrder(t)
 }
 
-func TestGetOrder(t *testing.T) {
+func TestQueries_GetOrderById(t *testing.T) {
 	order1 := createRandomOrder(t)
 	order2, err := testQueries.GetOrderById(context.Background(), order1.ID)
 	require.NoError(t, err)
@@ -58,7 +58,7 @@ func TestGetOrder(t *testing.T) {
 	require.WithinDuration(t, order1.CreatedAt, order2.CreatedAt, time.Second)
 }
 
-func TestUpdateOrderStatus(t *testing.T) {
+func TestQueries_UpdateOrder(t *testing.T) {
 	order1 := createRandomOrder(t)
 
 	arg := UpdateOrderParams{
@@ -78,7 +78,7 @@ func TestUpdateOrderStatus(t *testing.T) {
 	require.WithinDuration(t, order1.CreatedAt, order2.CreatedAt, time.Second)
 }
 
-func TestDeleteOrder(t *testing.T) {
+func TestQueries_DeleteOrder(t *testing.T) {
 	order1 := createRandomOrder(t)
 	err := testQueries.DeleteOrder(context.Background(), order1.ID)
 	require.NoError(t, err)
@@ -89,7 +89,7 @@ func TestDeleteOrder(t *testing.T) {
 	require.Empty(t, order2)
 }
 
-func TestListOrdersByServiceId(t *testing.T) {
+func TestQueries_ListOrdersByServiceId(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomOrder(t)
 	}
