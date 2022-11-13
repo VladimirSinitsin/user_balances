@@ -45,6 +45,7 @@ type TransferTxParams struct {
 	Amount        int64 `json:"amount"`
 }
 
+// TransferTxResults contains the result parameters of the transaction
 type TransferTxResults struct {
 	HistoryAccountFrom History `json:"history_account_from"`
 	HistoryAccountTo   History `json:"history_account_to"`
