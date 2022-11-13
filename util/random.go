@@ -37,7 +37,7 @@ func RandomName() string {
 
 // RandomAmount generate a random amount
 func RandomAmount() int64 {
-	return RandomInt(1, 1000)
+	return RandomInt(100, 1000)
 }
 
 // RandomStatus generate a random status name

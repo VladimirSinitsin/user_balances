@@ -30,11 +30,11 @@ func createRandomService(t *testing.T) Service {
 	return service
 }
 
-func TestCreateService(t *testing.T) {
+func TestQueries_CreateService(t *testing.T) {
 	createRandomService(t)
 }
 
-func TestGetServiceById(t *testing.T) {
+func TestQueries_GetServiceById(t *testing.T) {
 	service1 := createRandomService(t)
 	service2, err := testQueries.GetServiceById(context.Background(), service1.ID)
 	require.NoError(t, err)
@@ -46,7 +46,7 @@ func TestGetServiceById(t *testing.T) {
 	require.WithinDuration(t, service1.CreatedAt, service2.CreatedAt, time.Second)
 }
 
-func TestGetServiceByName(t *testing.T) {
+func TestQueries_GetServiceByName(t *testing.T) {
 	service1 := createRandomService(t)
 	service2, err := testQueries.GetServiceByName(context.Background(), service1.Name)
 	require.NoError(t, err)
@@ -58,7 +58,7 @@ func TestGetServiceByName(t *testing.T) {
 	require.WithinDuration(t, service1.CreatedAt, service2.CreatedAt, time.Second)
 }
 
-func TestDeleteService(t *testing.T) {
+func TestQueries_DeleteService(t *testing.T) {
 	service1 := createRandomService(t)
 	err := testQueries.DeleteService(context.Background(), service1.ID)
 	require.NoError(t, err)
@@ -69,7 +69,7 @@ func TestDeleteService(t *testing.T) {
 	require.Empty(t, service2)
 }
 
-func TestListServicesByServiceId(t *testing.T) {
+func TestQueries_ListServices(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomService(t)
 	}

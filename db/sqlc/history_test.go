@@ -37,11 +37,11 @@ func createRandomHistory(t *testing.T) History {
 	return history
 }
 
-func TestCreateHistory(t *testing.T) {
+func TestQueries_CreateHistory(t *testing.T) {
 	createRandomHistory(t)
 }
 
-func TestGetHistoryById(t *testing.T) {
+func TestQueries_GetHistoryById(t *testing.T) {
 	history1 := createRandomHistory(t)
 	history2, err := testQueries.GetHistoryById(context.Background(), history1.ID)
 	require.NoError(t, err)
@@ -54,7 +54,7 @@ func TestGetHistoryById(t *testing.T) {
 	require.WithinDuration(t, history1.CreatedAt, history2.CreatedAt, time.Second)
 }
 
-func TestDeleteHistory(t *testing.T) {
+func TestQueries_DeleteHistory(t *testing.T) {
 	history1 := createRandomHistory(t)
 	err := testQueries.DeleteHistory(context.Background(), history1.ID)
 	require.NoError(t, err)
@@ -65,7 +65,7 @@ func TestDeleteHistory(t *testing.T) {
 	require.Empty(t, history2)
 }
 
-func TestListHistoryByAccountIdAmountSort(t *testing.T) {
+func TestQueries_ListHistoryByAccountIdAmountSort(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomHistory(t)
 	}
@@ -85,7 +85,7 @@ func TestListHistoryByAccountIdAmountSort(t *testing.T) {
 	}
 }
 
-func TestListHistoryByAccountIdDataSort(t *testing.T) {
+func TestQueries_ListHistoryByAccountIdDataSort(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		createRandomHistory(t)
 	}
