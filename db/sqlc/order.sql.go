@@ -86,7 +86,7 @@ func (q *Queries) ListOrdersByServiceId(ctx context.Context, idService int64) ([
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Order
+	items := []Order{}
 	for rows.Next() {
 		var i Order
 		if err := rows.Scan(
