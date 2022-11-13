@@ -16,8 +16,6 @@ func TestStore_TransferTx(t *testing.T) {
 	// run n concurrent transfer transactions
 	n := 5
 	amount := int64(10)
-	testCommentFrom := fmt.Sprintf("Перевод клиенту № %v", account2.ID)
-	testCommentTo := fmt.Sprintf("Перевод от клиента № %v", account1.ID)
 
 	errs := make(chan error)
 	results := make(chan TransferTxResults)
@@ -36,6 +34,9 @@ func TestStore_TransferTx(t *testing.T) {
 	}
 
 	// check results
+	testCommentFrom := fmt.Sprintf("Перевод клиенту № %v", account2.ID)
+	testCommentTo := fmt.Sprintf("Перевод от клиента № %v", account1.ID)
+	
 	existed := make(map[int]bool)
 	for i := 0; i < n; i++ {
 		err := <-errs
@@ -47,9 +48,9 @@ func TestStore_TransferTx(t *testing.T) {
 		// check history of `account1`
 		historyAccountFrom := result.HistoryAccountFrom
 		require.NotEmpty(t, historyAccountFrom)
-		require.Equal(t, account1.ID, historyAccountFrom.IDAccount)
-		require.Equal(t, -amount, historyAccountFrom.Amount)
-		require.Equal(t, testCommentFrom, historyAccountFrom.Comment)
+		require.Equal(t, historyAccountFrom.IDAccount, account1.ID)
+		require.Equal(t, historyAccountFrom.Amount, -amount)
+		require.Equal(t, historyAccountFrom.Comment, testCommentFrom)
 		require.NotZero(t, historyAccountFrom.ID)
 		require.NotZero(t, historyAccountFrom.CreatedAt)
 
@@ -59,9 +60,9 @@ func TestStore_TransferTx(t *testing.T) {
 		// check history of `account2`
 		historyAccountTo := result.HistoryAccountTo
 		require.NotEmpty(t, historyAccountTo)
-		require.Equal(t, account2.ID, historyAccountTo.IDAccount)
-		require.Equal(t, amount, historyAccountTo.Amount)
-		require.Equal(t, testCommentTo, historyAccountTo.Comment)
+		require.Equal(t, historyAccountTo.IDAccount, account2.ID)
+		require.Equal(t, historyAccountTo.Amount, amount)
+		require.Equal(t, historyAccountTo.Comment, testCommentTo)
 		require.NotZero(t, historyAccountTo.ID)
 		require.NotZero(t, historyAccountTo.CreatedAt)
 
