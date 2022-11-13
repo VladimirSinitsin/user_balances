@@ -91,7 +91,7 @@ func (q *Queries) ListServices(ctx context.Context) ([]Service, error) {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []Service
+	items := []Service{}
 	for rows.Next() {
 		var i Service
 		if err := rows.Scan(

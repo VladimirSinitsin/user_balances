@@ -86,7 +86,7 @@ func (q *Queries) ListHistoryByAccountIdAmountSort(ctx context.Context, arg List
 		return nil, err
 	}
 	defer rows.Close()
-	var items []History
+	items := []History{}
 	for rows.Next() {
 		var i History
 		if err := rows.Scan(
@@ -129,7 +129,7 @@ func (q *Queries) ListHistoryByAccountIdDataSort(ctx context.Context, arg ListHi
 		return nil, err
 	}
 	defer rows.Close()
-	var items []History
+	items := []History{}
 	for rows.Next() {
 		var i History
 		if err := rows.Scan(
