@@ -11,14 +11,18 @@ import (
 )
 
 func createRandomAccount(t *testing.T) Account {
-	balance := util.RandomAmount()
+	arg := CreateAccountParams{
+		Owner:   util.RandomName(),
+		Balance: util.RandomAmount(),
+	}
 
-	account, err := testQueries.CreateAccount(context.Background(), balance)
+	account, err := testQueries.CreateAccount(context.Background(), arg)
 
 	require.NoError(t, err)
 	require.NotEmpty(t, account)
 
-	require.Equal(t, balance, account.Balance)
+	require.Equal(t, arg.Owner, account.Owner)
+	require.Equal(t, arg.Balance, account.Balance)
 
 	require.NotZero(t, account.ID)
 	require.NotZero(t, account.CreatedAt)
@@ -37,6 +41,7 @@ func TestQueries_GetAccount(t *testing.T) {
 	require.NotEmpty(t, account2)
 
 	require.Equal(t, account1.ID, account2.ID)
+	require.Equal(t, account1.Owner, account2.Owner)
 	require.Equal(t, account1.Balance, account2.Balance)
 	require.WithinDuration(t, account1.CreatedAt, account2.CreatedAt, time.Second)
 }
@@ -54,6 +59,7 @@ func TestQueries_UpdateAccount(t *testing.T) {
 	require.NotEmpty(t, account2)
 
 	require.Equal(t, account1.ID, account2.ID)
+	require.Equal(t, account1.Owner, account2.Owner)
 	require.Equal(t, arg.Balance, account2.Balance)
 	require.WithinDuration(t, account1.CreatedAt, account2.CreatedAt, time.Second)
 }
