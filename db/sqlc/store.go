@@ -51,9 +51,7 @@ type TransferTxResults struct {
 	HistoryAccountTo   History `json:"history_account_to"`
 	FromAccount        Account `json:"from_account"`
 	ToAccount          Account `json:"to_account"`
-	Amount             int64   `json:"amount"`
 	OperationStatus    string  `json:"operation_status"`
-	Date               string  `json:"date"`
 }
 
 // TransferTx performs a money transfer from one account to the other.
@@ -63,6 +61,16 @@ func (store *Store) TransferTx(ctx context.Context, arg TransferTxParams) (Trans
 
 	err := store.execTx(ctx, func(q *Queries) error {
 		var err error
+
+		// TODO: balance check
+		result.FromAccount, err = q.GetAccount(ctx, arg.FromAccountID)
+		if err != nil {
+			return err
+		}
+		if result.FromAccount.Balance < arg.Amount {
+			result.OperationStatus = "not enough money"
+			return err
+		}
 
 		result.HistoryAccountFrom, err = q.CreateHistory(ctx, CreateHistoryParams{
 			IDAccount: arg.FromAccountID,
